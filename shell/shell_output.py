@@ -55,7 +55,7 @@ class DelimitedOutputFormatter(object):
     writer = csv.writer(temp_buffer, delimiter=self.field_delim,
                         lineterminator='\n', quoting=csv.QUOTE_MINIMAL)
     writer.writerows(rows)
-    rows = temp_buffer.getvalue().rstrip('\n')
+    rows = temp_buffer.getvalue().decode('utf-8').rstrip('\n')
     temp_buffer.close()
     return rows
 
@@ -78,7 +78,7 @@ class OutputStream(object):
         print >>sys.stderr, "Writing to stdout"
 
   def write(self, data):
-    print >>self.handle, self.formatter.format(data)
+    print >>self.handle, self.formatter.format(data).encode('utf-8')
     self.handle.flush()
 
   def __del__(self):
